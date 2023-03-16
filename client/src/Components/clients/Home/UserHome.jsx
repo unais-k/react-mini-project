@@ -5,17 +5,21 @@ import userAxios from "../../../Axios/userAxios.js";
 function UserHome() {
     const [name, setName] = useState("");
     const token = useSelector((store) => store.Client.Token);
-    useEffect(() => {
-        userAxios
-            .get("/getDetails", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((res) => {
-                setName(res.data.name);
-            });
-    }, []);
+    if (token) {
+        useEffect(() => {
+            userAxios
+                .get("/getDetails", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => {
+                    setName(res.data.name);
+                });
+        }, []);
+    } else {
+        console.log("no token");
+    }
 
     return (
         <div>
